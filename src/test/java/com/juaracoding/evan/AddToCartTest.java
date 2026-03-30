@@ -156,7 +156,7 @@ public class AddToCartTest {
     // =========================
     // TEST ADD TO CART
     // =========================
-    @Test(priority = 2)
+    @Test(priority = 2, dependsOnMethods = "testLogin")
     public void testAddToCart() {
 
         System.out.println("\n[STEP] ADD TO CART");
@@ -198,7 +198,7 @@ public class AddToCartTest {
     // =========================
     // TEST REMOVE ITEM
     // =========================
-    @Test(priority = 3)
+    @Test(priority = 3, dependsOnMethods = "testAddToCart")
     public void testRemoveItem() {
 
         System.out.println("\n[STEP] REMOVE ITEM");
@@ -240,7 +240,7 @@ public class AddToCartTest {
     // =========================
     // TEST CHECKOUT
     // =========================
-    @Test(priority = 4)
+    @Test(priority = 4, dependsOnMethods = "testRemoveItem")
     public void testCheckout() {
 
         System.out.println("\n[STEP] CHECKOUT POSITIVE");
@@ -307,7 +307,7 @@ public class AddToCartTest {
     // =========================
     // TEST CHECKOUT NEGATIVE
     // =========================
-    @Test(priority = 5)
+    @Test(priority = 5, dependsOnMethods = "testCheckout")
     public void testCheckoutNegative() {
 
         System.out.println("\n[STEP] CHECKOUT NEGATIVE");
@@ -357,74 +357,3 @@ public class AddToCartTest {
             Assert.fail();
         }
     }
-
-    // =========================
-    // GENERATE ZIP
-    // =========================
-    public static String generateZip() {
-
-        Random random = new Random();
-        int zip = 10000 + random.nextInt(90000);
-
-        return String.valueOf(zip);
-    }
-
-    // =========================
-    // CREATE HEADER
-    // =========================
-    public static void createHeader() {
-
-        Row header = sheet.createRow(0);
-
-        header.createCell(0).setCellValue("Test Case ID");
-        header.createCell(1).setCellValue("Test Name");
-        header.createCell(2).setCellValue("Result");
-        header.createCell(3).setCellValue("Timestamp");
-    }
-
-    // =========================
-    // WRITE EXCEL
-    // =========================
-    public static void writeToExcel(String id, String name, String result) {
-
-        Row row = sheet.createRow(rowNum++);
-
-        row.createCell(0).setCellValue(id);
-        row.createCell(1).setCellValue(name);
-        row.createCell(2).setCellValue(result);
-        row.createCell(3).setCellValue(getTimestamp());
-    }
-
-    // =========================
-    // TIMESTAMP
-    // =========================
-    public static String getTimestamp() {
-
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        return LocalDateTime.now().format(formatter);
-    }
-
-    // =========================
-    // SAVE EXCEL
-    // =========================
-    public static void saveExcel() {
-
-        try {
-
-            FileOutputStream file =
-                    new FileOutputStream("SIT_Report.xlsx");
-
-            workbook.write(file);
-
-            workbook.close();
-            file.close();
-
-            System.out.println("SIT Report Generated");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}

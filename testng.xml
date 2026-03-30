@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="SauceDemo Suite">
+
+    <test name="Automation Test">
+
+        <classes>
+            <class name="com.juaracoding.evan.AddToCartTest"/>
+        </classes>
+
+    </test>
+
+</suite>
